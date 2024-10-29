@@ -43,10 +43,9 @@ public class GameLogic : IEquatable<GameLogic>, IComparable<GameLogic>
     protected string GenCombination(int length = 4)
     {
         string combination = string.Empty; //генерируемая комбинация
-        List<int> numbers = new List<int>(10)
-        {
-            0, 1, 2, 3, 4, 5, 6, 7, 8, 9
-        };
+        List<int> numbers = new List<int>(10);
+        for (int i = 0; i < 10; i++)
+            numbers.Add(i);
         Random rnd = new Random();
 
         for (int i = 0; i < length; i++)
@@ -55,7 +54,6 @@ public class GameLogic : IEquatable<GameLogic>, IComparable<GameLogic>
             numbers.Remove(chosenNum);
             combination += chosenNum;
         }
-
         return combination;
     }
 
