@@ -1,11 +1,6 @@
 ﻿using BullsAndCows.db.models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BullsAndCows.db.Configurations
 {
@@ -14,6 +9,9 @@ namespace BullsAndCows.db.Configurations
         public void Configure(EntityTypeBuilder<HistoryEntity> builder)
         {
             builder.HasKey(o => o.Id);
+            //делаем автоинкремент для первичного ключа
+            builder.Property(o => o.Id)
+                .ValueGeneratedOnAdd();
 
             //связь
             builder

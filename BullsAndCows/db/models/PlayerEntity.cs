@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BullsAndCows.db.models
+﻿namespace BullsAndCows.db.models
 {
     public class PlayerEntity
     {

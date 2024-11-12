@@ -1,12 +1,8 @@
 ﻿using BullsAndCows.db.Configurations;
 using BullsAndCows.db.models;
+using BullsAndCows.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BullsAndCows.db
 {
@@ -24,7 +20,7 @@ namespace BullsAndCows.db
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlite(_conStr)
-                //.LogTo(Console.WriteLine, LogLevel.Information) //логи
+                .LogTo(Logger.Log, LogLevel.Information) //логи
                 ;
         }
 

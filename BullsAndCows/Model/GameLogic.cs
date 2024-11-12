@@ -1,14 +1,7 @@
-using System;
-//настроить логи
-using System.IO;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-
-
 /// <summary>
 /// Содержит логику игры Быки и коровы
 /// </summary>
-public class GameLogic : IEquatable<GameLogic>, IComparable<GameLogic>
+public class GameLogic
 {
     private string? _combination;
     public string Combination { get => _combination; }
@@ -101,16 +94,6 @@ public class GameLogic : IEquatable<GameLogic>, IComparable<GameLogic>
             }
         }
         return cowsCount;
-    }
-
-    public int CompareTo(GameLogic? other)
-    {
-        return this._attempts.CompareTo(other._attempts);
-    }
-
-    public bool Equals(GameLogic? other)
-    {
-        return this._attempts == other._attempts;
     }
 }
 

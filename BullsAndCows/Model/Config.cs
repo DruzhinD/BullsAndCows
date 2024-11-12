@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Text.Json;
+﻿using System.Text.Json;
+#nullable disable
 
-namespace BullsAndCows
+namespace BullsAndCows.Model
 {
     /// <summary>
     /// Класс конфигурации
@@ -13,16 +9,18 @@ namespace BullsAndCows
     public class Config
     {
         static Config config;
+        public string DbPath { get => Path.Combine(Properties.Resources.db_path); }
+        public string LogPath => Path.Combine(Properties.Resources.log_path);
         private Config()
         {
-            using (FileStream file = new FileStream(this.configPath, FileMode.Open))
+            using (FileStream file = new FileStream(configPath, FileMode.Open))
             {
                 data = JsonSerializer.Deserialize<Dictionary<string, string>>(file);
             }
         }
 
         string configPath = @"data\\config.json";
-        public Dictionary<string, string>? data;
+        public Dictionary<string, string> data;
 
         public static Config GetInstance()
         {
