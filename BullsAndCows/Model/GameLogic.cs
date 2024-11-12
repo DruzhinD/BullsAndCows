@@ -7,7 +7,6 @@ public class GameLogic
     public string Combination { get => _combination; }
     private int _attempts = 0;
     public int Attempts { get => _attempts; }
-    private string logPath = System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), @"..\..\..\log.json");
     
     public GameLogic(){
         this._combination = this.GenCombination();
