@@ -1,13 +1,27 @@
+#nullable disable
+
+namespace BullsAndCows.Model;
+
 /// <summary>
 /// Содержит логику игры Быки и коровы
 /// </summary>
 public class GameLogic
 {
-    private string? _combination;
+    /// <summary>
+    /// Комбинация цифр
+    /// </summary>
     public string Combination { get => _combination; }
-    private int _attempts = 0;
+    private string? _combination = string.Empty;
+
+    /// <summary>
+    /// Текущее количество попыток
+    /// </summary>
     public int Attempts { get => _attempts; }
+    private int _attempts = 0;
     
+    /// <summary>
+    /// Инициализация новой игры с её сведениями
+    /// </summary>
     public GameLogic(){
         this._combination = this.GenCombination();
     }
@@ -93,26 +107,5 @@ public class GameLogic
             }
         }
         return cowsCount;
-    }
-}
-
-
-/// <summary>
-/// По сути это очередная запись (строка) попытки
-/// </summary>
-public class Attempt
-{
-    public int bulls;
-    public int cows;
-    /// <summary>
-    /// true - если комбинация угадана
-    /// </summary>
-    public bool isWin;
-
-    public Attempt(int bulls, int cows, bool win = false)
-    {
-        this.bulls = bulls;
-        this.cows = cows;
-        this.isWin = win;
     }
 }

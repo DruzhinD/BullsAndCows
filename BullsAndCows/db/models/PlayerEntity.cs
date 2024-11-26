@@ -1,5 +1,8 @@
 ﻿namespace BullsAndCows.db.models
 {
+    /// <summary>
+    /// запись из таблицы Player
+    /// </summary>
     public class PlayerEntity
     {
         public int Id { get; set; }

@@ -3,18 +3,32 @@
 
 namespace BullsAndCows
 {
+    /// <summary>
+    /// Хранит все сведения об игре и её механизмы
+    /// </summary>
     public class Game
     {
+        /// <summary>
+        /// Игрок, авторизованный в текущей игре
+        /// </summary>
         Player player; //текущий игрок
+        /// <summary>
+        /// Содержит информацию о текущей игре
+        /// </summary>
         private GameLogic logic;
-        private Config config;
+
+        /// <summary>
+        /// Создает экземпляр игры быки и коровы
+        /// </summary>
         public Game()
         {
             logic = new GameLogic();
-            config = Config.GetInstance();
-            player = new Player(config.DbPath);
+            //player = new Player(config.DbPath);
         }
 
+        /// <summary>
+        /// Запуск новой игры
+        /// </summary>
         public void Start()
         {
             Console.WriteLine("Игра \"Быки и коровы\".");
@@ -26,7 +40,7 @@ namespace BullsAndCows
             while (StartGame)
             {
                 Console.Write("Введите комбинацию: ");
-                string? userInput = Console.ReadLine();
+                string userInput = Console.ReadLine();
                 string result = "";
                 if (userInput != null)
                     result = IsCorrectInput(userInput);
@@ -34,7 +48,7 @@ namespace BullsAndCows
                 //если ввод некорректный, то повторяем попытку
                 if (result != "0")
                 {
-                    System.Console.WriteLine(result);
+                    Console.WriteLine(result);
                     continue;
                 }
 
@@ -85,6 +99,10 @@ namespace BullsAndCows
         }
 
         #region Формы регистрации и авторизации
+        /// <summary>
+        ///Форма ввода данных для регистрации или авторизации
+        /// </summary>
+        /// <returns>true - авторизация/регистрация выполнена успешно</returns>
         bool AuthorizationOrRegistration()
         {
             string msg = "Для входа (авторизации) нажмите 1; \n" +
@@ -123,7 +141,7 @@ namespace BullsAndCows
         }
 
         /// <summary>
-        /// Авторизация
+        /// Логика взаимодействия с пользователем во время авторизации
         /// </summary>
         /// <returns>true - авторизация прошла успешно</returns>
         bool Authorization()
@@ -137,12 +155,14 @@ namespace BullsAndCows
             if (password == null)
                 return false;
 
-            bool result = this.player.Authorization(login, password);
-            return result;
+            this.player = Player.Authorization(login, password);
+            if (this.player == null)
+                return false;
+            return true;
         }
 
         /// <summary>
-        /// регистрация
+        /// Логика взаимодействия с пользователем во время регистрации
         /// </summary>
         /// <returns>true - регистрация прошла успешно</returns>
         bool Registration()
@@ -156,8 +176,10 @@ namespace BullsAndCows
             string password = Console.ReadLine();
             if (password == null)
                 return false;
-            bool regResult = this.player.Registration(username, password);
-            return regResult;
+            this.player = Player.Authorization(username, password);
+            if (this.player == null)
+                return false;
+            return true;
         }
         #endregion
 

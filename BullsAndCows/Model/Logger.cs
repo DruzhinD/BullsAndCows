@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 namespace BullsAndCows.Model
 {
     /// <summary>
-    /// Класс логгирования
+    /// Логгирование.
     /// </summary>
     public static class Logger
     {
         /// <summary>
         /// Записать лог с сообщением message
         /// </summary>
-        /// <param name="message"></param>
+        /// <param name="message">Информация для лога</param>
         public static void Log(string message)
         {
             //добавляем время лога
@@ -24,8 +24,7 @@ namespace BullsAndCows.Model
                 message = time + message + '\n';
             else
                 message = time + message;
-            string logPath = Config.GetInstance().LogPath;
-            File.AppendAllText(logPath, message);
+            File.AppendAllText(Config.LogPath, message);
         }
     }
 }

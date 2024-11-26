@@ -1,9 +1,11 @@
-﻿12.11.24 23:08:19 An error occurred while saving the entity changes. See the inner exception for details.12.11.24 23:19:42info: 12.11.2024 23:19:42.890 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+﻿12.11.24 23:08:19 An error occurred while saving the entity changes. See the inner exception for details.
+12.11.24 23:19:42info: 12.11.2024 23:19:42.890 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
       Executed DbCommand (10ms) [Parameters=[@__name_0='?' (Size = 7)], CommandType='Text', CommandTimeout='30']
       SELECT "p"."Id", "p"."Name", "p"."Password"
       FROM "Player" AS "p"
       WHERE "p"."Name" = @__name_0
-      LIMIT 112.11.24 23:21:23info: 12.11.2024 23:21:23.273 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      LIMIT 1
+12.11.24 23:21:23info: 12.11.2024 23:21:23.273 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
       Executed DbCommand (10ms) [Parameters=[@__name_0='?' (Size = 7)], CommandType='Text', CommandTimeout='30']
       SELECT "p"."Id", "p"."Name", "p"."Password"
       FROM "Player" AS "p"
@@ -11,6 +13,23 @@
       LIMIT 1
 12.11.24 23:21:25info: 12.11.2024 23:21:25.300 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
       Executed DbCommand (1ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (Size = 4), @p2='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "History" ("Attempts", "Combination", "player_id")
+      VALUES (@p0, @p1, @p2)
+      RETURNING "Id";
+13.11.24 08:08:17info: 13.11.2024 08:08:17.015 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (25ms) [Parameters=[@__name_0='?' (Size = 7)], CommandType='Text', CommandTimeout='30']
+      SELECT "p"."Id", "p"."Name", "p"."Password"
+      FROM "Player" AS "p"
+      WHERE "p"."Name" = @__name_0
+      LIMIT 1
+13.11.24 08:08:25info: 13.11.2024 08:08:25.378 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (1ms) [Parameters=[@__name_0='?' (Size = 7)], CommandType='Text', CommandTimeout='30']
+      SELECT "p"."Id", "p"."Name", "p"."Password"
+      FROM "Player" AS "p"
+      WHERE "p"."Name" = @__name_0
+      LIMIT 1
+13.11.24 08:08:37info: 13.11.2024 08:08:37.562 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (2ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (Size = 4), @p2='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
       INSERT INTO "History" ("Attempts", "Combination", "player_id")
       VALUES (@p0, @p1, @p2)
       RETURNING "Id";

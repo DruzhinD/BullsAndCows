@@ -1,81 +1,119 @@
 ﻿using BullsAndCows.db;
 using BullsAndCows.db.models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 #nullable disable
 
 namespace BullsAndCows.Model
 {
+    /// <summary>
+    /// Сведения об игроке в контексте игры быки и коровы
+    /// </summary>
     public class Player
     {
+        /// <summary>
+        /// Сведения об игроке
+        /// </summary>
         PlayerEntity player;
-        public PlayerEntity PlayerInfo => player;
-        string dbPath;
 
-        public Player(string dbPath) => this.dbPath = dbPath;
+        /// <summary>
+        /// Сведения об игроке
+        /// </summary>
+        public PlayerEntity PlayerInfo => player;
+
+        /// <summary>
+        /// Инициализация пользователя игры быки и коровы 
+        /// </summary>
+        /// <param name="player">запись об игроке из бд</param>
+        protected Player(PlayerEntity player)
+        {
+            this.player = player;
+        }
 
         /// <summary>
         /// Авторизация
         /// </summary>
-        /// <returns>True - авторизация выполнена успешно</returns>
-        public bool Authorization(string name, string password)
+        /// <returns>Player в случае успешной авторизации, иначе null</returns>
+        public static Player Authorization(string name, string password)
         {
-            PlayerEntity player;
+            PlayerEntity playerDbRecord;
             try
             {
-                using GameDbContext dbContext = new GameDbContext(this.dbPath);
-                player = dbContext.Player.FirstOrDefault(x => x.Name == name);
+                using GameDbContext dbContext = new GameDbContext(Config.DbPath);
+                playerDbRecord = dbContext.Player.FirstOrDefault(x => x.Name == name);
+            }
+            catch (ArgumentNullException ex)
+            {
+                Logger.Log(ex.Message);
+                return null;
             }
             catch (Exception ex)
             {
                 Logger.Log(ex.Message);
-                return false;
+                return null;
             }
 
             //нет пользователя с таким именем
-            if (player == null)
-                return false;
+            if (playerDbRecord == null)
+                return null;
 
             //пароль не совпадает
-            if (player.Password != password)
-                return false;
+            if (playerDbRecord.Password != password)
+                return null;
 
-            //сохраняем запись из бд
-            this.player = player;
-            return true;
+            //инициализируем игрока для текущих данных авторизации и возвращаем его
+            Player playerGame = new(playerDbRecord);
+            return playerGame;
         }
 
-        public bool Registration(string name, string password)
+        /// <summary>
+        /// Регистрация нового пользователя
+        /// </summary>
+        /// <returns>Player в случае успешной регистрации, иначе null</returns>
+        public static Player Registration(string name, string password)
         {
-            using (GameDbContext dbContext = new GameDbContext(this.dbPath))
+            //пользователь в контексте бд
+            Player playerGame = null;
+            using (GameDbContext dbContext = new GameDbContext(Config.DbPath))
             {
                 try
                 {
-                    PlayerEntity player = dbContext.Player.FirstOrDefault(x => x.Name == name);
+                    //сведения об игроке из БД
+                    PlayerEntity playerDbRecord = dbContext.Player.FirstOrDefault(x => x.Name == name);
 
                     //пользователь с таким именем уже существует
-                    if (player != null)
-                        return false;
+                    if (playerDbRecord != null)
+                        return null;
 
-                    this.player = new PlayerEntity()
+                    playerDbRecord = new PlayerEntity()
                     {
                         Name = name,
                         Password = password
                     };
+
                     //добавляем нового пользователя в бд
-                    dbContext.Player.Add(player);
+                    dbContext.Player.Add(playerDbRecord);
                     dbContext.SaveChanges();
+
+                    //созданием нового пользователя в контексте игры
+                    playerGame = new Player(playerDbRecord);
+                }
+                catch (DbUpdateException ex)
+                {
+                    Logger.Log(ex.Message);
+                    return null;
+                }
+                catch (ArgumentNullException ex)
+                {
+                    Logger.Log(ex.Message);
+                    return null;
                 }
                 catch (Exception ex)
                 {
                     Logger.Log(ex.Message);
-                    return false;
+                    return null;
                 }
             }
-            return true;
+            return playerGame;
         }
 
         /// <summary>
@@ -96,12 +134,17 @@ namespace BullsAndCows.Model
 
             try
             {
-                using (GameDbContext dbContext = new GameDbContext(this.dbPath))
+                using (GameDbContext dbContext = new GameDbContext(Config.DbPath))
                 {
                     dbContext.History.Add(history);
                     dbContext.Player.Attach(this.player);
                     dbContext.SaveChanges();
                 }
+            }
+            catch (DbUpdateException ex)
+            {
+                Logger.Log(ex.Message);
+                return false;
             }
             catch (Exception ex)
             {

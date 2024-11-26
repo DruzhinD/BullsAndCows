@@ -2,6 +2,9 @@
 
 namespace BullsAndCows.db.models
 {
+    /// <summary>
+    /// запись из таблицы Player
+    /// </summary>
     public class HistoryEntity
     {
         public int Id { get; set; }
